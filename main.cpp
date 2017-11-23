@@ -7,5 +7,6 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
+    //if(MainWindow.myBool=true) return a.exec();
     return a.exec();
 }

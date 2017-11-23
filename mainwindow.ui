@@ -17,12 +17,30 @@
    <widget class="QTextEdit" name="mTextEdit">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>240</x>
       <y>30</y>
-      <width>71</width>
+      <width>51</width>
       <height>41</height>
      </rect>
     </property>
+   </widget>
+   <widget class="QTabWidget" name="mTabWidget">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>50</y>
+      <width>123</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Tab 1</string>
+     </attribute>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -38,8 +56,10 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionNew_File"/>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
+    <addaction name="actionClose"/>
    </widget>
    <addaction name="menuOpen"/>
   </widget>
@@ -58,6 +78,22 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionNew_File">
+   <property name="text">
+    <string>New File</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionClose">
+   <property name="text">
+    <string>Close</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
    </property>
   </action>
  </widget>
