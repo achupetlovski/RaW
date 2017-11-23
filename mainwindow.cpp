@@ -7,6 +7,7 @@
 #include <QPlainTextEdit>
 #include <QTextEdit>
 #include <QTextStream>
+#include <QTabWidget>
 
 //This function gets the contents of a file and reads it all/puts it into a file stream
 void MainWindow::read(QString Filename)
@@ -33,6 +34,9 @@ void MainWindow::read(QString Filename)
     //Set the text in the editor to the QString above
     ui->mTextEdit->setPlainText(mFileStream);
 
+    //Filename here returns the full path to the file including the file name
+    qDebug()<<Filename;
+
     //Flush is not needed really as we don't write to the file
     mFile.flush();
 
@@ -47,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     //Setting the mTextEdit object as the main one, i.e. take all the space available
     setCentralWidget(ui->mTextEdit);
+
 
 }
 
@@ -67,11 +72,34 @@ void MainWindow::on_actionOpen_triggered()
     //maybe this will need to be changed over time
     if(fileName!="")
     {
+        Filename = fileName;
         read(fileName);
     }
 }
 
 void MainWindow::on_actionSave_triggered()
 {
+    //QTextStream out;
 
+    //QString text = ui->mTextEdit->toPlainText();
+
+    QString text = ui->mTextEdit->toPlainText();
+
+    QFile mFile(Filename);
+    //writeonly = locking the file
+    if(!mFile.open(QFile::WriteOnly | QFile::Text))
+    {
+            qDebug() << "Could not open file for writing.";
+            return;
+    }
+
+    QTextStream out(&mFile);
+    out << text;
+
+    mFile.flush();
+    mFile.close();
+
+    //qDebug()<<Filename;
+    //qDebug()<< Filename;
+    //qDebug()<<text;
 }
