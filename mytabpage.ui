@@ -13,13 +13,13 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QTextEdit" name="mTabTextEdit">
+  <widget class="QTextEdit" name="mTextEdit">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>20</y>
-     <width>201</width>
-     <height>81</height>
+     <x>30</x>
+     <y>10</y>
+     <width>104</width>
+     <height>64</height>
     </rect>
    </property>
   </widget>

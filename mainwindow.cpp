@@ -16,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setCentralWidget(ui->mTabWidget);
+
+
     //setCentralWidget(ui->mTextEdit);
 
 
@@ -89,6 +91,8 @@ void MainWindow::read(QString Filename)
 
     mTabWidget:myTabPage().setTabText(mFileStream);
 
+    //ui->mTextEdit->setText("random text");
+
     //Filename here returns the full path to the file including the file name
     //qDebug()<<Filename;
 
@@ -116,10 +120,10 @@ void MainWindow::on_actionSave_triggered()
     QTextStream out(&mFile);
 
     //Getting the text from the text box mTestEdit
-    QString text = ui->mTextEdit->toPlainText();
+    //QString text = ui->mTextEdit->toPlainText();
 
     //Writing to file
-    out << text;
+    //out << text;
 
     //Flushing after use
     mFile.flush();
@@ -157,3 +161,4 @@ void MainWindow::on_actionClose_triggered()
         //myBool=true;
     }
 }
+

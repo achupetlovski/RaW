@@ -14,16 +14,6 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QTextEdit" name="mTextEdit">
-    <property name="geometry">
-     <rect>
-      <x>240</x>
-      <y>30</y>
-      <width>51</width>
-      <height>41</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QTabWidget" name="mTabWidget">
     <property name="geometry">
      <rect>
