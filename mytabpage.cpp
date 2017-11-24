@@ -24,7 +24,7 @@ myTabPage::myTabPage(QWidget *parent) :
 
     //setCentralWidget(ui->mTabTextEdit);
 
-    //ui->mTabTextEdit->setPlainText(mFileStream);
+    //ui->mTextEdit->setPlainText("mFileStream");
 
     //MainWindow().ui->mTabTextEdit->setPlainText(mFileStream);
     //Ui::MainWindow().ui->mTabTextEditsetPlainText("mFileStream");
@@ -41,15 +41,17 @@ myTabPage::~myTabPage()
     delete ui;
 }
 
+//The below is not really needed
 void myTabPage::setTabText(QString &mFileStream)
 {
-    qDebug()<<"Made it this far...\n" + mFileStream;
-    ui->mTextEdit->setPlainText(mFileStream);
+    /*qDebug()<<"Made it this far...\n" + mFileStream;
+    ui->mTextEdit->setPlainText(mFileStream);*/
 
     //ui->mTabTextEdit->setPlainText("some text");
     //ui->mPlainTextEdit->setPlainText("some text");
 
-    QString text = ui->mTextEdit->toPlainText();
-    qDebug()<<"Contents of text box:\n" + text;
+    /*QString text = ui->mTextEdit->toPlainText();
+    qDebug()<<"Contents of text box:\n" + text;*/
 }
+
 
