@@ -1,0 +1,15 @@
+//This should some day probably look like a file editor
+
+First edit, added open file
+
+Note that at the moment it works with only one single file at a time!
+
+
+Second commit/edit, can now save file as well
+
+
+Third commit
+
+Tabs now working as expected, all save/read/write functions work fine.
+
+Text window now fits to size ( stretches to fit ) the size of the tab, so you can resize your window.

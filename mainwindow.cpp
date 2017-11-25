@@ -9,22 +9,39 @@
 #include <QTextEdit>
 #include <QTextStream>
 #include <QTabWidget>
+#include <QGridLayout>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //setCentralWidget(ui->mTabWidget);
+    setCentralWidget(ui->mTabWidget);
+
+    //int tabWidth = ui->mTabWidget->width();
+    //int tabHeight = ui->mTabWidget->height();
+
+    //ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->resize(tabWidth,tabHeight);
+
+
 
 
     //setCentralWidget(ui->mTextEdit);
-
+    //QList <int>*myTextBoxList = new QList;
 
     //myTabPage *mNewTab = new myTabPage;
     ui->mTabWidget ->removeTab(0);
     //ui->mTabWidget ->addTab(mNewTab, tr("New tab"));
     ui->mTabWidget->insertTab(1,new myTabPage(),QIcon(QString("")),"New Tab");
+
+    QGridLayout *layout = new QGridLayout;
+    layout->addWidget(ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit"));
+    ui->mTabWidget->currentWidget()->setLayout(layout);
+    ui->mTabWidget->currentWidget()->show();
+
+    //ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+
+    //QVector <
 
     //myNewTab->functionDeclaredInMyTabPage(); //access parameters of myNewTab
 
@@ -37,7 +54,9 @@ MainWindow::MainWindow(QWidget *parent) :
     //Setting the mTextEdit object as the main one, i.e. take all the space available
     //setCentralWidget(ui->mTextEdit);
 
+    //QList <int>*myTextBoxList = new QList;
 
+    //QList<int*> myTextBoxList;
     // connect(ui->mTabWidget, SIGNAL(currentChanged(int)), ui->label, SLOT(setText(int)));
 
 
@@ -68,8 +87,28 @@ void MainWindow::on_actionOpen_triggered()
     //maybe this will need to be changed over time
     if(fileName!="")
     {
-        Filename = fileName;
-        read(fileName);
+        ///
+        ///     DEBUG PART
+        ///
+        /*
+        qDebug()<<"\n\nOPEN FILE DEBUG:";
+        qDebug()<<"\nMy Filename is:";
+        qDebug()<<fileName;
+        */
+
+        ui->mTabWidget->currentWidget()->setAccessibleName(fileName);
+
+        ///
+        ///     DEBUG PART
+        ///
+        /*
+        qDebug()<<"\nFor ui->mTabWidget->currentWidget():";
+        qDebug()<<ui->mTabWidget->currentWidget();
+        qDebug()<<"\nEchoing AccessibleName is:";
+        qDebug()<<ui->mTabWidget->currentWidget()->accessibleName();
+        */
+
+        MainWindow::read(fileName);
     }
 
 
@@ -80,10 +119,10 @@ void MainWindow::on_actionOpen_triggered()
 }
 
 //This function gets the contents of a file and reads it all/puts it into a file stream
-void MainWindow::read(QString Filename)
+void MainWindow::read(QString fileName)
 {
     //Creating new QFile object
-    QFile mFile(Filename);
+    QFile mFile(fileName);
 
     //Check if file opens
     if(!mFile.open(QFile::ReadOnly | QFile::Text))
@@ -96,7 +135,31 @@ void MainWindow::read(QString Filename)
     QTextStream in(&mFile);
 
     //Get text stream contents to a QString
-    QString mFileStream = in.readAll();
+    QString mFileString = in.readAll();
+
+    ///
+    ///     DEBUG PART
+    ///
+    /*
+    qDebug() << "\n\nREAD LOG:\nui->mTabWidget->currentIndex(); IS:";
+    qDebug() << ui->mTabWidget->currentIndex();
+
+    qDebug() << "\nui->mTabWidget->currentWidget() IS:";
+    qDebug() << ui->mTabWidget->currentWidget();
+
+    qDebug() << "\nui->mTabWidget->currentWidget()->children() IS:";
+    qDebug()<<ui->mTabWidget->currentWidget()->children();
+
+    qDebug() << "\nSetting text to mTextEdit...";
+    */
+
+    ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->setPlainText(mFileString);
+
+    ///
+    ///
+    ///     Keeping the code(gibberish) below for now to remind me of my peak stupidity.
+    ///
+    ///
 
     //Debug in the QTconsole if you want to test
     //qDebug() << "mFileStream before parse:" + mFileStream;
@@ -131,8 +194,8 @@ void MainWindow::read(QString Filename)
     qDebug() << ui->mTabWidget->widget(ui->mTabWidget->currentIndex());
 */
 
-    myTabPage *newTaby = new myTabPage;
-    newTaby = ui->mTabWidget->findChild<myTabPage*>("myTabPage");
+    //myTabPage *newTaby = new myTabPage;
+    //newTaby = ui->mTabWidget->findChild<myTabPage*>("myTabPage");
     //QString aaag = QString::number(ui->mTabWidget->currentIndex());
     //newTaby->setTabText(aaag);
 
@@ -142,13 +205,15 @@ void MainWindow::read(QString Filename)
     //qDebug() << "My newTaby:";
     //qDebug() << newTaby;// qDebug() << aaag;
 
-    QTextEdit *newTextEdit = new QTextEdit;
-    newTextEdit = newTaby->findChild<QTextEdit*>("mTextEdit");
+    //QTextEdit *newTextEdit = new QTextEdit;
+    //newTextEdit = newTaby->findChild<QTextEdit*>("mTextEdit");
 
-    qDebug() << "newTaby newTextEdit child:";
-    qDebug() << newTextEdit;
+    //qDebug() << "newTaby newTextEdit child under tab index ";
+    //qDebug() << ui->mTabWidget->currentIndex();
+    //qDebug() << "is:";
+    //qDebug() << newTextEdit;
 
-    newTextEdit->setPlainText(mFileStream);
+    //newTextEdit->setPlainText(mFileStream);
 
     //qDebug()<< "Have set text:" + newTextEdit->toPlainText() + "\nto newTextEdit on tab number:" + newTextEdit->objectName();
 
@@ -165,7 +230,7 @@ void MainWindow::read(QString Filename)
     //qDebug()<<Filename;
 
     //Flush is not needed really as we don't write to the file
-    mFile.flush();
+    //mFile.flush();
 
     //Closing the file after we're done naturally
     mFile.close();
@@ -173,8 +238,19 @@ void MainWindow::read(QString Filename)
 
 void MainWindow::on_actionSave_triggered()
 {
+    QString fileName = ui->mTabWidget->currentWidget()->accessibleName();
+
+    ///
+    ///     DEBUG PART
+    ///
+    /*
+    qDebug()<<"\n\nSAVE FILE DEBUG:";
+    qDebug()<<"\nSave will use this fileName:";
+    qDebug()<<fileName;
+    */
+
     //Opening file, ready for writing
-    QFile mFile(Filename);
+    QFile mFile(fileName);
 
     //writeonly = locking the file
     //Check if file opens, if not, abort mission
@@ -186,6 +262,25 @@ void MainWindow::on_actionSave_triggered()
 
     //TextStream of the file
     QTextStream out(&mFile);
+
+    ///
+    ///     DEBUG PART
+    ///
+    /*
+    qDebug() << "\n\nSAVE LOG:\nui->mTabWidget->currentIndex(); IS:";
+    qDebug() << ui->mTabWidget->currentIndex();
+
+    qDebug() << "\nui->mTabWidget->currentWidget() IS:";
+    qDebug() << ui->mTabWidget->currentWidget();
+
+    qDebug() << "\nui->mTabWidget->currentWidget()->children() IS:";
+    qDebug()<<ui->mTabWidget->currentWidget()->children();
+
+    qDebug() << "\nSaving text from mTextEdit to the file opened";
+    */
+
+    //Getting the text from the text box mTestEdit
+    out << ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->toPlainText();
 
     //Getting the text from the text box mTestEdit
     //QString text = ui->mTextEdit->toPlainText();
@@ -199,29 +294,43 @@ void MainWindow::on_actionSave_triggered()
     //Closing the file
     mFile.close();
 
-    QString statusString = "File " + Filename + " saved.";
+    QString statusString = "File " + fileName + " saved.";
     statusBar()->showMessage(statusString);
 }
 
 void MainWindow::on_actionNew_File_triggered()
 {
+    int tabIndex = ui->mTabWidget->currentIndex();
+    int totalTabs = ui->mTabWidget->count();
 
     ui->mTabWidget->insertTab(ui->mTabWidget->currentIndex()+1,new myTabPage(),QIcon(QString("")),"New Tab");
+    tabIndex++;
 
-    //QString aaasd = QString::number(ui->mTabWidget->currentIndex());
-    //ui->mTabWidget->setTabText(ui->mTabWidget->currentIndex(),aaasd);
+    ui->mTabWidget->setCurrentIndex(totalTabs);
 
+    QGridLayout *layout = new QGridLayout;
+    layout->addWidget(ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit"));
+    ui->mTabWidget->currentWidget()->setLayout(layout);
+    ui->mTabWidget->currentWidget()->show();
 
-    //myTabPage.setTabText("kekuru");
+    ///
+    ///     DEBUG PART
+    ///
+    /*
+    qDebug() << "\n\nNEW TAB LOG:";
+    qDebug() << "\nui->mTabWidget->currentIndex(); IS:";
+    qDebug() << ui->mTabWidget->currentIndex();
 
-    //qDebug() << "Children:"; qDebug() << ui->mTabWidget->children();
+    qDebug() << "\nui->mTabWidget->currentWidget() IS:";
+    qDebug() << ui->mTabWidget->currentWidget();
 
-    //qDebug() << ui->mTabWidget->findChild("mTextEdit");
+    qDebug() << "\nui->mTabWidget->currentWidget()->children() IS:";
+    qDebug()<<ui->mTabWidget->currentWidget()->children();
 
-
-
-    //int tab_index = ui->mTabWidget->currentIndex();
-    //ui->mTabWidget->setTabText(tab_index, Filename);
+    qDebug() << "\n\nNEW TAB LOG:";
+    qDebug() << "\nui->mTabWidget->currentIndex(); IS:";
+    qDebug() << ui->mTabWidget->currentIndex();
+    */
 }
 
 void MainWindow::on_actionClose_triggered()
@@ -229,96 +338,97 @@ void MainWindow::on_actionClose_triggered()
     int tab_index = ui->mTabWidget->currentIndex();
 
     int tab_count = ui->mTabWidget->count();
-    //qDebug() << tab_count;
 
     if(tab_count!=0)
     {
+        ///
+        ///     DEBUG PART
+        ///
+        /*
+        qDebug() << "\n\nCLOSE LOG:\nui->mTabWidget->currentIndex(); IS:";
+        qDebug() << ui->mTabWidget->currentIndex();
+
+        qDebug() << "\nui->mTabWidget->currentWidget() IS:";
+        qDebug() << ui->mTabWidget->currentWidget();
+
+        qDebug() << "\nui->mTabWidget->currentWidget()->children() IS:";
+        qDebug()<<ui->mTabWidget->currentWidget()->children();
+
+        //QWidget *tmp = ui->mTabWidget->currentWidget();
+        //QObjectList *tmp = new QObjectList();
+
+        qDebug()<< "\nui->mTabWidget->currentWidget()->findChild<QTextEdit*>(\"mTextEdit\") IS:";
+        */
+        delete ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit");
+
+        ///
+        ///     DEBUG PART
+        ///
+        /*
+        if(ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit"))
+        {
+            qDebug() << "Destroyed";
+            qDebug() << "Here's what's left:";
+            //qDebug() << tmp;
+        }
+        else
+        {
+            qDebug() << "Not Destroyed";
+            qDebug() << "Here's what's left:";
+            qDebug() << ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit");
+        }
+        */
+
         ui->mTabWidget->removeTab(tab_index);
     }
     else
     {
-        qDebug()<<"Closing app";
+        ///
+        ///     DEBUG PART
+        ///
+        /*
+        qDebug()<<"\n\n\nEXITING PROGRAM";
+        */
         QApplication::quit();
-        //myBool=true;
     }
 }
 
-
-//The below is not erally neededs
-void MainWindow::addMyItems(QString mFileSring)
+void MainWindow::on_actionShow_triggered()
 {
-    //ui->tableWidget->setRowCount(ui->tableWidget->rowCount() + 1);//increase row count by 1
+    ///
+    ///     DEBUG PART
+    ///
 
-    //QWidget *txt = new QWidget;
-    //txt = ui->mTabWidget->widget(0);
+    qDebug()<< "List of all mTextEdits:";
+    qDebug()<< ui->mTabWidget->findChildren<QTextEdit*>("mTextEdit");
 
-
-
-    //int row = ui->tableWidget->rowCount() - 1;
-
-    //set all data in cells
-    //ui->tableWidget->setItem(row,0,new QTableWidgetItem(name));
-    //ui->tableWidget->setItem(row,1,new QTableWidgetItem(address));
-    //ui->tableWidget->setItem(row,2,new QTableWidgetItem(phone));
-    //ui->tableWidget->setItem(row,3,new QTableWidgetItem(mobile));
 }
-/*
-void MainWindow::on_mTabWidget_tabBarClicked(int index)
-{
-    connect(ui->mTabWidget, SIGNAL(tabBarClicked(int)), this, SLOT(onTabChanged(int)));
-}*/
-/*
-void MainWindow::onTabChanged(int tabIndex)
-{
-    qDebug() << "Tab number:" + QString::number(ui->mTabWidget->currentIndex()) + " selected";
-}*/
-/*
- *
- *
- *
- *     connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),
-            ui->progressBar_2,SLOT(setValue(int)));
-       **/
 
-/*
-bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+void MainWindow::on_actionShow_current_triggered()
 {
-    bool result = QObject::eventFilter(obj, event);
+    ///
+    ///     DEBUG PART
+    ///
 
-        if (event->type() == QEvent::MouseButtonDblClick)
-        {
-            //perhaps we need to start a new name editing action...
-            QMouseEvent* me = static_cast<QMouseEvent*>(event);
-            int clickedTabId = ui->mTabWidget->currentIndex();
-            qDebug() << "Clicked tab ID:" + QString::number(clickedTabId);
-         }
+    qDebug() << "\n\nCURRENT TAB LOG:\nui->mTabWidget->currentIndex(); IS:";
+    qDebug() << ui->mTabWidget->currentIndex();
 
-            /*if (clickedTabId == -1)
-                return result;
-            if (!m_allowRenamingDisabledTabs && !ui->mTabWidget->isTabEnabled(clickedTabId))
-                return result;
-            triggerRename(clickedTabId);
-            return true; //no further handling of this event is required
-        }
-    }*/
-/*
-    //handle some events on the line edit to make it behave itself nicely as a rename editor
-    if (o == m_lineEdit) {
-        if (e->type() == QEvent::KeyPress) {
-            QKeyEvent* ke = static_cast<QKeyEvent*>(e);
-            if (ke->key() == Qt::Key_Escape) {
-                m_lineEdit->deleteLater();
-                return true; //no further handling of this event is required
-            }
-        }
-    }
-*//*
-    return result;
- }
-*/
-/*
-void MainWindow::on_mTabWidget_tabBarClicked(int index)
+    qDebug() << "\nui->mTabWidget->currentWidget() IS:";
+    qDebug() << ui->mTabWidget->currentWidget();
+
+    qDebug() << "\nui->mTabWidget->currentWidget()->children() IS:";
+    qDebug()<<ui->mTabWidget->currentWidget()->children();
+
+}
+
+void MainWindow::on_actionShow_Current_Tab_Index_triggered()
 {
-    ui->label->setText(QString::number(ui->mTabWidget->currentIndex()));
-    ui->label->show();
-}*/
+    ///
+    ///     DEBUG PART
+    ///
+
+    qDebug()<< "Current tab index:";
+    qDebug()<< ui->mTabWidget->currentIndex();
+
+}
+

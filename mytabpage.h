@@ -14,7 +14,6 @@ class myTabPage : public QWidget
 public:
     explicit myTabPage(QWidget *parent = 0);
     ~myTabPage();
-    void setTabText(QString &mFileStream);
 private slots:
 
 private:

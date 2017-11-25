@@ -14,26 +14,19 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void read(QString Filename);
-    void addMyItems(QString mFileSring);
-    //bool eventFilter(QObject *obj, QEvent *event);
-    //void onTabChanged(int tabIndex);
-    //void on_tabWidget_tabBarClicked();
+    void read(QString fileName);
 private slots:
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
     void on_actionNew_File_triggered();
     void on_actionClose_triggered();
-
-    //void on_mTabWidget_tabBarClicked(int index);
-
-    void on_mTabWidget_tabBarClicked(int index);
+    void on_actionShow_triggered();
+    void on_actionShow_current_triggered();
+    void on_actionShow_Current_Tab_Index_triggered();
 
 private:
     Ui::MainWindow *ui;
-    QString Filename;
-    //Boolean myBool=false;
-    //QString Filenames[];
+    //QString Filename;
 };
 
 #endif // MAINWINDOW_H

@@ -34,4 +34,5 @@ FORMS    += mainwindow.ui \
     mytabpage.ui
 
 DISTFILES += \
-    README.md
+    README.md \
+    changelog.txt
