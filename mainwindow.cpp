@@ -18,17 +18,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setCentralWidget(ui->mTabWidget);
 
-    //int tabWidth = ui->mTabWidget->width();
-    //int tabHeight = ui->mTabWidget->height();
-
-    //ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->resize(tabWidth,tabHeight);
-
-
-
-
-    //setCentralWidget(ui->mTextEdit);
-    //QList <int>*myTextBoxList = new QList;
-
     //myTabPage *mNewTab = new myTabPage;
     ui->mTabWidget ->removeTab(0);
     //ui->mTabWidget ->addTab(mNewTab, tr("New tab"));
@@ -38,30 +27,6 @@ MainWindow::MainWindow(QWidget *parent) :
     layout->addWidget(ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit"));
     ui->mTabWidget->currentWidget()->setLayout(layout);
     ui->mTabWidget->currentWidget()->show();
-
-    //ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-
-    //QVector <
-
-    //myNewTab->functionDeclaredInMyTabPage(); //access parameters of myNewTab
-
-    //connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),
-    //        ui->progressBar_2,SLOT(setValue(int)));
-
-    //connect(ui->mTabWidget, SIGNAL(tabBarClicked(int)),
-           // ui->label,SLOT(setValue(ui->mTabWidget->currentIndex())));
-
-    //Setting the mTextEdit object as the main one, i.e. take all the space available
-    //setCentralWidget(ui->mTextEdit);
-
-    //QList <int>*myTextBoxList = new QList;
-
-    //QList<int*> myTextBoxList;
-    // connect(ui->mTabWidget, SIGNAL(currentChanged(int)), ui->label, SLOT(setText(int)));
-
-
-    //ui->label->setText(QString::number(ui->mTabWidget->currentIndex()));
-    //ui->label->show();
 }
 
 MainWindow::~MainWindow()
@@ -238,6 +203,9 @@ void MainWindow::read(QString fileName)
 
 void MainWindow::on_actionSave_triggered()
 {
+    //QBool myBool = true;
+    if(!ui->mTabWidget->currentWidget()->accessibleName().isNull())
+    {
     QString fileName = ui->mTabWidget->currentWidget()->accessibleName();
 
     ///
@@ -296,6 +264,30 @@ void MainWindow::on_actionSave_triggered()
 
     QString statusString = "File " + fileName + " saved.";
     statusBar()->showMessage(statusString);
+    }
+    else //qDebug()<< "gg";
+    {
+        QString fileName = QFileDialog::getSaveFileName(this, "Save As", "");
+
+        QFile mFile(fileName);
+
+        if(!mFile.open(QFile::WriteOnly | QFile::Text))
+        {
+                qDebug() << "Could not open file for writing.";
+                return;
+        }
+
+        ui->mTabWidget->currentWidget()->setAccessibleName(fileName);
+
+        //TextStream of the file
+        QTextStream out(&mFile);
+
+        out << ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->toPlainText();
+
+        mFile.flush();
+
+        mFile.close();
+    }
 }
 
 void MainWindow::on_actionNew_File_triggered()
@@ -399,9 +391,11 @@ void MainWindow::on_actionShow_triggered()
     ///     DEBUG PART
     ///
 
-    qDebug()<< "List of all mTextEdits:";
-    qDebug()<< ui->mTabWidget->findChildren<QTextEdit*>("mTextEdit");
+    //qDebug()<< "List of all mTextEdits:";
+    //qDebug()<< ui->mTabWidget->findChildren<QTextEdit*>("mTextEdit");
 
+    qDebug()<< "Showing current Access Name";
+    qDebug()<< ui->mTabWidget->currentWidget()->accessibleName();
 }
 
 void MainWindow::on_actionShow_current_triggered()

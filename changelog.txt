@@ -13,3 +13,8 @@ Third commit
 Tabs now working as expected, all save/read/write functions work fine.
 
 Text window now fits to size ( stretches to fit ) the size of the tab, so you can resize your window.
+
+
+Forth
+
+You can now save new files
