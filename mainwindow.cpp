@@ -40,8 +40,24 @@ MainWindow::MainWindow(QWidget *parent) :
     // = QList<color>();
 
 
+/*
+    QList<color> *list;
 
+    color *first = new color;
+    first->setColor("red");
+    first->setName("foo");
 
+    color *second = new color;
+    first->setColor("green");
+    first->setName("function");
+
+    color *third = new color;
+    first->setColor("purple");
+    first->setName("if");
+
+    list->push_back(*first);
+    list->push_back(*second);
+    list->push_back(*third);*/
 
     //ui->mTabWidget->
     //QString txt = ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->toPlainText();

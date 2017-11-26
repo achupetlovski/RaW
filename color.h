@@ -25,6 +25,7 @@ public:
 private:
     QString keyword_name;
     QString keyword_color;
+
 };
 
 #endif // COLOR_H
