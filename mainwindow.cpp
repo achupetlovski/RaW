@@ -10,6 +10,12 @@
 #include <QTextStream>
 #include <QTabWidget>
 #include <QGridLayout>
+#include <QTime>
+#include <QTimer>
+#include <color.h>
+
+
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -17,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setCentralWidget(ui->mTabWidget);
+    //ui->menuBar->setNativeMenuBar(false);
 
     //myTabPage *mNewTab = new myTabPage;
     ui->mTabWidget ->removeTab(0);
@@ -27,6 +34,23 @@ MainWindow::MainWindow(QWidget *parent) :
     layout->addWidget(ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit"));
     ui->mTabWidget->currentWidget()->setLayout(layout);
     ui->mTabWidget->currentWidget()->show();
+
+    //coloring *txt = new coloring;
+
+    // = QList<color>();
+
+
+
+
+
+    //ui->mTabWidget->
+    //QString txt = ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->toPlainText();
+
+    //works or initial tab only
+    //txt = "QSTRING txt";
+
+    //ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->setPlainText(txt);
+
 }
 
 MainWindow::~MainWindow()
@@ -119,6 +143,7 @@ void MainWindow::read(QString fileName)
     */
 
     ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->setPlainText(mFileString);
+
 
     ///
     ///
@@ -394,8 +419,16 @@ void MainWindow::on_actionShow_triggered()
     //qDebug()<< "List of all mTextEdits:";
     //qDebug()<< ui->mTabWidget->findChildren<QTextEdit*>("mTextEdit");
 
-    qDebug()<< "Showing current Access Name";
-    qDebug()<< ui->mTabWidget->currentWidget()->accessibleName();
+    //qDebug()<< "Showing current Access Name";
+    //qDebug()<< ui->mTabWidget->currentWidget()->accessibleName();
+
+
+    //qDebug() << "\nEchoing retrunString:";
+    //qDebug() << ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->toPlainText();
+
+    QString myStr = ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->toPlainText();
+    //MainWindow::doFoo(/*myStr*/);
+
 }
 
 void MainWindow::on_actionShow_current_triggered()
@@ -424,5 +457,23 @@ void MainWindow::on_actionShow_Current_Tab_Index_triggered()
     qDebug()<< "Current tab index:";
     qDebug()<< ui->mTabWidget->currentIndex();
 
+}
+
+void MainWindow::on_actionAuto_Coloring_toggled(bool arg1)
+{
+    if(arg1)
+    {
+        qDebug() << "Auto color toggled on";
+        //connect(ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit"), SIGNAL(textChanged()), this, SLOT(eventAutoColor()));
+        MainWindow::eventAutoColor();
+        connect(ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit"), SIGNAL(textChanged()), this, SLOT(eventAutoColor_new()));
+    }
+    if(!arg1)
+    {
+        qDebug() << "Auto color toggled off";
+        MainWindow::diseventAutoColor();
+        //disconnect(ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit"), SIGNAL(textChanged()), this, SLOT(eventAutoColor()));
+        disconnect(ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit"), SIGNAL(textChanged()), this, SLOT(eventAutoColor_new()));
+    }
 }
 

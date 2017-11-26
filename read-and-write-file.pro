@@ -25,10 +25,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    mytabpage.cpp
+    mytabpage.cpp \
+    color.cpp
 
 HEADERS  += mainwindow.h \
-    mytabpage.h
+    mytabpage.h \
+    color.h
 
 FORMS    += mainwindow.ui \
     mytabpage.ui

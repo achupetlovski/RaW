@@ -54,7 +54,14 @@
     <addaction name="actionShow_current"/>
     <addaction name="actionShow_Current_Tab_Index"/>
    </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionAuto_Coloring"/>
+   </widget>
    <addaction name="menuOpen"/>
+   <addaction name="menuTools"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen">
@@ -102,6 +109,17 @@
   <action name="actionShow_Current_Tab_Index">
    <property name="text">
     <string>Show Current Tab Index</string>
+   </property>
+  </action>
+  <action name="actionAuto_Coloring">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Auto Coloring</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+A</string>
    </property>
   </action>
  </widget>
