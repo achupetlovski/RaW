@@ -10,24 +10,10 @@
 #include <QTextStream>
 #include <QTabWidget>
 #include <QGridLayout>
-//#include <QStringMatcher>
 #include <QDateTime>
-
 #include "color.h"
 
-/*
-enum myEnum {
-  var,
-  foo,
-  function
-};
-
-typedef QMap<QString, myEnum> StringToEnumMap;
- StringToEnumMap stringToEnum;
-*/
-
 QList<color> list;
-
 
 void MainWindow::eventAutoColor()
 {
@@ -126,12 +112,12 @@ void MainWindow::eventAutoColor()
     QString myStr = ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->toPlainText();
     QStringList myStrList = myStr.split(" ");
 
-    qDebug()<<"mystrlist count:"<<myStrList.count();
+    //qDebug()<<"mystrlist count:"<<myStrList.count();
 
     for(int t=0; t < myStrList.count(); t++)
     {
         QString word = myStrList[t];
-        qDebug() <<"t iteration" << t;
+        //qDebug() <<"t iteration" << t;
         for (int i = 0; i < list.count(); i++)
         {
             //qDebug() <<"i iteration" << i;
@@ -147,12 +133,12 @@ void MainWindow::eventAutoColor()
             {
                 //qDebug() << "list[i].getKeyWordColor()";
                 //qDebug() << list[i].getKeyWordColor();
-                qDebug()<<"old word:"+word;
+                //qDebug()<<"old word:"+word;
                 myStrList.replaceInStrings(word, "<font color="+ list[i].getKeyWordColor() +">" + word);
 
                  word="<font color="+ list[i].getKeyWordColor() +">" + word;
 
-                qDebug()<<"new word:" + word;
+                //qDebug()<<"new word:" + word;
 
 
              //  word="<font color="+ list[i].getKeyWordColor() +">" + word;

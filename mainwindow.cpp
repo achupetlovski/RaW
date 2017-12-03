@@ -12,8 +12,9 @@
 #include <QGridLayout>
 #include <QTime>
 #include <QTimer>
-#include <color.h>
+#include "color.h"
 
+#include "options.h"
 
 
 
@@ -23,63 +24,21 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setCentralWidget(ui->mTabWidget);
-    //ui->menuBar->setNativeMenuBar(false);
 
-    //myTabPage *mNewTab = new myTabPage;
     ui->mTabWidget ->removeTab(0);
-    //ui->mTabWidget ->addTab(mNewTab, tr("New tab"));
     ui->mTabWidget->insertTab(1,new myTabPage(),QIcon(QString("")),"New Tab");
 
     QGridLayout *layout = new QGridLayout;
     layout->addWidget(ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit"));
     ui->mTabWidget->currentWidget()->setLayout(layout);
     ui->mTabWidget->currentWidget()->show();
-
-    //coloring *txt = new coloring;
-
-    // = QList<color>();
-
-
-/*
-    QList<color> *list;
-
-    color *first = new color;
-    first->setColor("red");
-    first->setName("foo");
-
-    color *second = new color;
-    first->setColor("green");
-    first->setName("function");
-
-    color *third = new color;
-    first->setColor("purple");
-    first->setName("if");
-
-    list->push_back(*first);
-    list->push_back(*second);
-    list->push_back(*third);*/
-
-    //ui->mTabWidget->
-    //QString txt = ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->toPlainText();
-
-    //works or initial tab only
-    //txt = "QSTRING txt";
-
-    //ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->setPlainText(txt);
-
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-/*
-void MainWindow::on_tabWidget_tabBarClicked()
-{
-    ui->label->setText(QString::number(ui->mTabWidget->currentIndex()));
-    ui->label->show();
-}
-*/
+
 void MainWindow::on_actionOpen_triggered()
 {
     QString fileName;
@@ -115,12 +74,6 @@ void MainWindow::on_actionOpen_triggered()
 
         MainWindow::read(fileName);
     }
-
-
-
-    //ui->statusBar->
-    //QString statusString = "File " + Filename + " opened.";
-    //statusBar()->showMessage(statusString);
 }
 
 //This function gets the contents of a file and reads it all/puts it into a file stream
@@ -157,86 +110,9 @@ void MainWindow::read(QString fileName)
 
     qDebug() << "\nSetting text to mTextEdit...";
     */
+    ///
 
     ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->setPlainText(mFileString);
-
-
-    ///
-    ///
-    ///     Keeping the code(gibberish) below for now to remind me of my peak stupidity.
-    ///
-    ///
-
-    //Debug in the QTconsole if you want to test
-    //qDebug() << "mFileStream before parse:" + mFileStream;
-
-    //Set the text in the editor to the QString above
-    ///ui->mTextEdit->setPlainText(mFileStream);
-
-    ////////mTabWidget:myTabPage().setTabText(mFileStream);
-
-    /*
-     *
-     *       QTextEdit *asd = new QTextEdit;
-     *       asd = ui->mTabWidget->findChild<QTextEdit*>("mTextEdit");
-     *       asd->setPlainText(mFileStream);
-     *
-     */
-
-    /*
-    QTextEdit *asd = new QTextEdit;
-    asd = ui->mTabWidget->findChild<QTextEdit*>("mTextEdit");
-    asd->setPlainText(mFileStream);
-    */
-
-    //QList *newList = new QList;
-    //newList = ui->mTabWidget->findChildren<QTextEdit*>("mTextEdit");
-/*
-    qDebug() << "My Widgets list on the tab:";
-    qDebug() << ui->mTabWidget->findChildren<QTextEdit*>("mTextEdit");
-*/
-/*
-    qDebug() << "My Widgets list on the current tab:";
-    qDebug() << ui->mTabWidget->widget(ui->mTabWidget->currentIndex());
-*/
-
-    //myTabPage *newTaby = new myTabPage;
-    //newTaby = ui->mTabWidget->findChild<myTabPage*>("myTabPage");
-    //QString aaag = QString::number(ui->mTabWidget->currentIndex());
-    //newTaby->setTabText(aaag);
-
-    //QList *newTabyList = new QList;
-    //newTabyList = ui->mTabWidget->findChildren<myTabPage*>("myTabPage");
-
-    //qDebug() << "My newTaby:";
-    //qDebug() << newTaby;// qDebug() << aaag;
-
-    //QTextEdit *newTextEdit = new QTextEdit;
-    //newTextEdit = newTaby->findChild<QTextEdit*>("mTextEdit");
-
-    //qDebug() << "newTaby newTextEdit child under tab index ";
-    //qDebug() << ui->mTabWidget->currentIndex();
-    //qDebug() << "is:";
-    //qDebug() << newTextEdit;
-
-    //newTextEdit->setPlainText(mFileStream);
-
-    //qDebug()<< "Have set text:" + newTextEdit->toPlainText() + "\nto newTextEdit on tab number:" + newTextEdit->objectName();
-
-    //outputs index of the tab you're on
-    //qDebug()<< "Tab selected:"; qDebug()<< ui->mTabWidget->currentIndex();
-
-    //mTabWidget->ui->myTabPage::myFoo(mFileStream);
-
-    //myTabPage::myFoo(mFileStream);
-
-    //ui->mTextEdit->setText("random text");
-
-    //Filename here returns the full path to the file including the file name
-    //qDebug()<<Filename;
-
-    //Flush is not needed really as we don't write to the file
-    //mFile.flush();
 
     //Closing the file after we're done naturally
     mFile.close();
@@ -257,6 +133,7 @@ void MainWindow::on_actionSave_triggered()
     qDebug()<<"\nSave will use this fileName:";
     qDebug()<<fileName;
     */
+    ///
 
     //Opening file, ready for writing
     QFile mFile(fileName);
@@ -287,15 +164,10 @@ void MainWindow::on_actionSave_triggered()
 
     qDebug() << "\nSaving text from mTextEdit to the file opened";
     */
+    ///
 
     //Getting the text from the text box mTestEdit
     out << ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->toPlainText();
-
-    //Getting the text from the text box mTestEdit
-    //QString text = ui->mTextEdit->toPlainText();
-
-    //Writing to file
-    //out << text;
 
     //Flushing after use
     mFile.flush();
@@ -306,7 +178,7 @@ void MainWindow::on_actionSave_triggered()
     QString statusString = "File " + fileName + " saved.";
     statusBar()->showMessage(statusString);
     }
-    else //qDebug()<< "gg";
+    else
     {
         QString fileName = QFileDialog::getSaveFileName(this, "Save As", "");
 
@@ -364,6 +236,7 @@ void MainWindow::on_actionNew_File_triggered()
     qDebug() << "\nui->mTabWidget->currentIndex(); IS:";
     qDebug() << ui->mTabWidget->currentIndex();
     */
+    ///
 }
 
 void MainWindow::on_actionClose_triggered()
@@ -392,6 +265,8 @@ void MainWindow::on_actionClose_triggered()
 
         qDebug()<< "\nui->mTabWidget->currentWidget()->findChild<QTextEdit*>(\"mTextEdit\") IS:";
         */
+        ///
+
         delete ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit");
 
         ///
@@ -411,6 +286,7 @@ void MainWindow::on_actionClose_triggered()
             qDebug() << ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit");
         }
         */
+        ///
 
         ui->mTabWidget->removeTab(tab_index);
     }
@@ -422,6 +298,8 @@ void MainWindow::on_actionClose_triggered()
         /*
         qDebug()<<"\n\n\nEXITING PROGRAM";
         */
+        ///
+
         QApplication::quit();
     }
 }
@@ -431,16 +309,13 @@ void MainWindow::on_actionShow_triggered()
     ///
     ///     DEBUG PART
     ///
-
     //qDebug()<< "List of all mTextEdits:";
     //qDebug()<< ui->mTabWidget->findChildren<QTextEdit*>("mTextEdit");
-
     //qDebug()<< "Showing current Access Name";
     //qDebug()<< ui->mTabWidget->currentWidget()->accessibleName();
-
-
     //qDebug() << "\nEchoing retrunString:";
     //qDebug() << ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->toPlainText();
+    ///
 
     QString myStr = ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->toPlainText();
     //MainWindow::doFoo(/*myStr*/);
@@ -452,7 +327,7 @@ void MainWindow::on_actionShow_current_triggered()
     ///
     ///     DEBUG PART
     ///
-
+    /*
     qDebug() << "\n\nCURRENT TAB LOG:\nui->mTabWidget->currentIndex(); IS:";
     qDebug() << ui->mTabWidget->currentIndex();
 
@@ -461,7 +336,8 @@ void MainWindow::on_actionShow_current_triggered()
 
     qDebug() << "\nui->mTabWidget->currentWidget()->children() IS:";
     qDebug()<<ui->mTabWidget->currentWidget()->children();
-
+    */
+    ///
 }
 
 void MainWindow::on_actionShow_Current_Tab_Index_triggered()
@@ -470,26 +346,34 @@ void MainWindow::on_actionShow_Current_Tab_Index_triggered()
     ///     DEBUG PART
     ///
 
-    qDebug()<< "Current tab index:";
-    qDebug()<< ui->mTabWidget->currentIndex();
-
+    //qDebug()<< "Current tab index:";
+    //qDebug()<< ui->mTabWidget->currentIndex();
+    ///
 }
 
 void MainWindow::on_actionAuto_Coloring_toggled(bool arg1)
 {
     if(arg1)
     {
-        qDebug() << "Auto color toggled on";
-        //connect(ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit"), SIGNAL(textChanged()), this, SLOT(eventAutoColor()));
         MainWindow::eventAutoColor();
         connect(ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit"), SIGNAL(textChanged()), this, SLOT(eventAutoColor_new()));
     }
     if(!arg1)
     {
-        qDebug() << "Auto color toggled off";
         MainWindow::diseventAutoColor();
-        //disconnect(ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit"), SIGNAL(textChanged()), this, SLOT(eventAutoColor()));
         disconnect(ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit"), SIGNAL(textChanged()), this, SLOT(eventAutoColor_new()));
     }
 }
 
+
+void MainWindow::on_actionOptions_triggered()
+{
+    qDebug()<<"\nOptions menu opened";
+
+    QWidget *myOptions = new options;
+    //myOptions->
+
+
+
+    myOptions->show();
+}

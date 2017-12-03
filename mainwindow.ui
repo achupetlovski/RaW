@@ -59,6 +59,7 @@
      <string>Tools</string>
     </property>
     <addaction name="actionAuto_Coloring"/>
+    <addaction name="actionOptions"/>
    </widget>
    <addaction name="menuOpen"/>
    <addaction name="menuTools"/>
@@ -120,6 +121,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+A</string>
+   </property>
+  </action>
+  <action name="actionOptions">
+   <property name="text">
+    <string>Options</string>
    </property>
   </action>
  </widget>

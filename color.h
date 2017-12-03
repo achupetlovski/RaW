@@ -12,6 +12,7 @@
 #include <QGridLayout>
 #include <QTime>
 #include <QTimer>
+#include <QTableWidget>
 
 #ifndef COLOR_H
 #define COLOR_H
@@ -22,10 +23,10 @@ public:
     void setColor(QString color) { keyword_color = color; }
     QString getKeyWordName() { return keyword_name;}
     QString getKeyWordColor() { return keyword_color; }
+
 private:
     QString keyword_name;
     QString keyword_color;
-
 };
 
 #endif // COLOR_H
