@@ -13,11 +13,11 @@
 #include <QDateTime>
 #include "color.h"
 
-QList<color> list;
+QList<color> myList;
 
 void MainWindow::eventAutoColor()
 {
-
+    /*
     color *words1 = new color;
     words1->setColor("red"); words1->setName("or");
 
@@ -107,8 +107,63 @@ void MainWindow::eventAutoColor()
     list.push_back(*words20);
     list.push_back(*words21);
     list.push_back(*words22);
+    */
 
 
+    ///here we need to create a dynamically growing list of color objects that contain the
+    ///words from the keywords.conf file...woohoo
+
+    QString myFilePath = qApp->applicationDirPath() + "/conf/keywords.conf";
+
+    QFile myFile(myFilePath);
+    if(!myFile.open(QFile::ReadOnly | QFile::Text))
+    {
+            qDebug() << "Could not open file for reading at " << myFilePath;
+            return;
+    }
+
+    QTextStream in(&myFile);
+
+    QString mFileString = in.readAll();
+    QStringList myStringList = mFileString.split(QRegExp("\n| "), QString::SkipEmptyParts);//.split(" |\n");
+
+    //qDebug() << myStringList;
+
+    ///so here every second word in the list is a color, and every first one is a keyword
+    /// now to make a list from those
+
+    int myStringList_count = myStringList.count();
+
+    //qDebug() << "My STR list count: " << myStringList_count;
+    int pen = 0;
+    for(int i = 0; i < myStringList_count/2; i++)
+    {
+        //list.push_back(new color("asd","dsa"));  // myStringList[i],myStringList[i+1]
+        color *mycolor = new color();
+        //qDebug() << "\nmycolor->setName(myStringList[i]); gets value:" << myStringList[i];
+        mycolor->setName(myStringList[pen]); pen++;
+        //qDebug() << "mycolor->setColor(myStringList[i+1]); gets value:" << myStringList[i+1];
+        mycolor->setColor(myStringList[pen]); pen++;
+        myList.push_back(*mycolor);
+    }
+
+    //qDebug() << "LIST: " << myList;
+    /*
+    for (int i = 0; i < myList.count(); ++i)
+    {
+        QString tmp = myList[i].getKeyWordName();
+        qDebug() << "\nTmp1:" << tmp;
+        tmp = myList[i].getKeyWordColor();
+        qDebug() << "Tmp2:" << tmp;
+    }*/
+
+
+//////////
+//////////   although the below block works, it breaks the formatiing like \n or \t so it's disabled now
+//////////
+//////////   should figureout another way to go thorugh the text and add color
+//////////
+/*
     QString myStr = ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->toPlainText();
     QStringList myStrList = myStr.split(" ");
 
@@ -118,7 +173,7 @@ void MainWindow::eventAutoColor()
     {
         QString word = myStrList[t];
         //qDebug() <<"t iteration" << t;
-        for (int i = 0; i < list.count(); i++)
+        for (int i = 0; i < myList.count(); i++)
         {
             //qDebug() <<"i iteration" << i;
             //qDebug() << "iteration:";
@@ -127,16 +182,16 @@ void MainWindow::eventAutoColor()
             //qDebug() << "list[i].getKeyWordName()";
             //qDebug() << list[i].getKeyWordName();
             //match "word" to all of the keywords. if any matches set it's colour
-            if(word==list[i].getKeyWordName())
+            if(word==myList[i].getKeyWordName())
 
             //if(word==keywords[i].getKeyWordName())
             {
                 //qDebug() << "list[i].getKeyWordColor()";
                 //qDebug() << list[i].getKeyWordColor();
                 //qDebug()<<"old word:"+word;
-                myStrList.replaceInStrings(word, "<font color="+ list[i].getKeyWordColor() +">" + word);
+                myStrList.replaceInStrings(word, "<font color="+ myList[i].getKeyWordColor() +">" + word);// + "</font>");
 
-                 word="<font color="+ list[i].getKeyWordColor() +">" + word;
+                 word="<font color="+ myList[i].getKeyWordColor() +">" + word;//  + "</font>";
 
                 //qDebug()<<"new word:" + word;
 
@@ -151,7 +206,7 @@ void MainWindow::eventAutoColor()
     myStr = myStrList.join(" ");
 
     ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->setHtml(myStr);
-
+*/
 /*
     QString fileName = "/home/mike/qt/mini-projects/keywords.lua";
 
@@ -366,12 +421,63 @@ void MainWindow::diseventAutoColor()
 
 
 
-    QString plainText = ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->toPlainText();
+    //QString plainText = ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->toHtml();
+    //qDebug() << "\nPlain text before:"<<plainText;
 
-    ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->setPlainText(plainText);
+    //plainText.
+    //plainText.remove(QRegExp("<[^>]*>"));
 
-    //qDebug() << "\nplainTextVariable:";
-    //qDebug() << plainText;
+
+
+
+
+    //QString esc=plainText.toHtmlEscaped();
+    //qDebug() << "\nPlain text after:"<<esc;
+
+
+
+    //ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->setHtml(plainText);
+
+///////////////////////////////////////
+/*
+    QString myStr = ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->toPlainText();
+    QStringList myStrList = myStr.split(" ");
+
+
+
+    for(int t=0; t < myStrList.count(); t++)
+    {
+        QString word = myStrList[t];
+        for (int i = 0; i < myList.count(); i++)
+        {
+            if(word==myList[i].getKeyWordName())
+            {
+                myStrList.replaceInStrings(word, "<font color=black>" + word + "</font>");
+
+                word="<font color=black>" + word + "</font>";
+            }
+        }
+    }
+
+    myStr = myStrList.join(" ");
+
+    ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->setHtml(myStr);
+    ui->statusBar->showMessage("Thinking...");
+    ui->statusBar->showMessage("");
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
 
@@ -382,21 +488,10 @@ void MainWindow::eventAutoColor_new()
     disconnect(ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit"), SIGNAL(textChanged()), this, SLOT(eventAutoColor_new()));
 
     QTextCursor tmp = ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->textCursor();
-
-    //qDebug() << "\nui->mTabWidget->currentWidget()->findChild<QTextEdit*>(\"mTextEdit\")->textCursor():";
-    //qDebug() << ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->textCursor().position();
     int tempInt = ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit")->textCursor().position();
 
     tmp.select(QTextCursor::WordUnderCursor);
     QString word = tmp.selectedText();
-
-
-    //qDebug() << "\nQString word:";
-    //qDebug() << word;
-
-    //qDebug() << "\ntmp before:";
-    //qDebug() << tmp.position();
-
 
     ///If word matches a key word, add color to it .. ;d
     /*
@@ -437,7 +532,7 @@ void MainWindow::eventAutoColor_new()
 
 
 
-    for (int i = 0; i < list.count(); i++)
+    for (int i = 0; i < myList.count(); i++)
     {
         //qDebug() << "iteration:";
         //qDebug() << i;
@@ -445,13 +540,13 @@ void MainWindow::eventAutoColor_new()
         //qDebug() << "list[i].getKeyWordName()";
         //qDebug() << list[i].getKeyWordName();
         //match "word" to all of the keywords. if any matches set it's colour
-        if(word==list[i].getKeyWordName())
+        if(word==myList[i].getKeyWordName())
 
         //if(word==keywords[i].getKeyWordName())
         {
             //qDebug() << "list[i].getKeyWordColor()";
             //qDebug() << list[i].getKeyWordColor();
-           word="<font color="+ list[i].getKeyWordColor() +">" + word;
+           word="<font color="+ myList[i].getKeyWordColor() +">" + word;
         //      word="<font color="+ keywords[i].getKeyWordColor() +">" + word;
 
         }

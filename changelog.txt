@@ -24,3 +24,16 @@ Coloring is done for the ~22 lua keywords. You need to enable the option from th
 It currently works on new words and breaks formatting if you enable it on an already open text.
 
 Looking forward to adding dynamic keyword coloring function instead soon.
+
+
+options form is done as a table, with the ability to add and remove rows
+
+those rows will be filled with keywords and color.
+
+perhaps will add color palette to chose color from
+
+
+
+
+automatic coloring works
+able to add keywords with their colors from options

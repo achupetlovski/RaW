@@ -45,7 +45,7 @@ void MainWindow::on_actionOpen_triggered()
 
     // Here we get the path/filename in the QString variable fileName
     fileName = QFileDialog::getOpenFileName(this,
-        tr("Open file"), "/home/mike/qt/mini-projects/read-and-write-file/", tr("Lua Files (*.lua)"));
+        tr("Open file"), "/home/mike/qt/mini-projects/read-and-write-file/", tr("All Files (*.*)"));
 
     //If filename is not empty, i.e. nothing, send it to the read function for opening
     //maybe this will need to be changed over time
@@ -360,7 +360,7 @@ void MainWindow::on_actionAuto_Coloring_toggled(bool arg1)
     }
     if(!arg1)
     {
-        MainWindow::diseventAutoColor();
+        //MainWindow::diseventAutoColor();
         disconnect(ui->mTabWidget->currentWidget()->findChild<QTextEdit*>("mTextEdit"), SIGNAL(textChanged()), this, SLOT(eventAutoColor_new()));
     }
 }
@@ -368,7 +368,7 @@ void MainWindow::on_actionAuto_Coloring_toggled(bool arg1)
 
 void MainWindow::on_actionOptions_triggered()
 {
-    qDebug()<<"\nOptions menu opened";
+    //qDebug()<<"\nOptions menu opened";
 
     QWidget *myOptions = new options;
     //myOptions->
